@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="PaisaWise Pro">
 <meta name="theme-color" content="#1a1d2e">
 <title>PaisaWise Pro</title>
-<style>*{margin:0;padding:0}body{background:#1a1d2e;overflow:hidden}.s{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border:3px solid rgba(255,255,255,0.15);border-top-color:#d4af37;border-radius:50%;animation:sp .8s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}</style>
+<style>*{margin:0;padding:0}body{background:#1a1d2e}.s{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border:3px solid rgba(255,255,255,0.15);border-top-color:#d4af37;border-radius:50%;animation:sp .8s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}</style>
 </head>
 <body>
 <div class="s"></div>
@@ -22,19 +22,19 @@
 <script src="chunk7.js"></script>
 <script src="chunk8.js"></script>
 <script>
-try{
 var p="";
 for(var i=1;i<=8;i++){p+=window["__c"+i]||"";}
 p=p.replace(/-/g,"+").replace(/_/g,"/");
 while(p.length%4)p+="=";
 var b=atob(p),a=new Uint8Array(b.length);
 for(var i=0;i<b.length;i++)a[i]=b.charCodeAt(i);
-var blob=new Blob([a],{type:"text/html;charset=utf-8"});
-var url=URL.createObjectURL(blob);
-window.location.replace(url);
-}catch(e){
-document.body.innerHTML='<div style="color:#f87171;text-align:center;padding:40px;font-family:system-ui;font-size:14px">Loading error. Please refresh.<br><br><button onclick="location.reload()" style="padding:12px 30px;background:#d4af37;color:#1a1d2e;border:0;border-radius:8px;font-size:16px;font-weight:600">Retry</button></div>';
-}
+new Response(new Blob([a]).stream().pipeThrough(new DecompressionStream("gzip"))).text().then(function(t){
+document.open();
+document.write(t);
+document.close();
+}).catch(function(e){
+document.body.innerHTML='<div style="color:#f87171;text-align:center;padding:40px;font-family:system-ui;font-size:14px">Error: '+e.message+'<br><br><button onclick="location.reload()" style="padding:12px 30px;background:#d4af37;color:#1a1d2e;border:0;border-radius:8px;font-size:16px;font-weight:600">Retry</button></div>';
+});
 </script>
 </body>
 </html>
