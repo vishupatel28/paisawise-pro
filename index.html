@@ -10,30 +10,26 @@
 <meta name="theme-color" content="#1a1d2e">
 <meta name="application-name" content="PaisaWise Pro">
 <title>PaisaWise Pro</title>
-<style>body{margin:0;background:#1a1d2e;color:#fff;font-family:system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100dvh;gap:16px}.spinner{width:40px;height:40px;border:3px solid rgba(255,255,255,0.2);border-top-color:#d4af37;border-radius:50%;animation:spin 0.8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.loading-text{font-size:14px;opacity:0.7}</style>
+<style>body{margin:0;background:#1a1d2e;color:#fff;font-family:system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100dvh;gap:16px}.spinner{width:40px;height:40px;border:3px solid rgba(255,255,255,0.2);border-top-color:#d4af37;border-radius:50%;animation:spin 0.8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}</style>
 </head>
 <body>
 <div class="spinner"></div>
-<div class="loading-text">Loading PaisaWise Pro...</div>
+<script src="chunk1.js"></script>
+<script src="chunk2.js"></script>
+<script src="chunk3.js"></script>
+<script src="chunk4.js"></script>
+<script src="chunk5.js"></script>
+<script src="chunk6.js"></script>
+<script src="chunk7.js"></script>
+<script src="chunk8.js"></script>
 <script>
 var p="";
-function loadChunk(n){
-return fetch("chunk"+n+".txt").then(function(r){return r.text()}).then(function(t){
-p+=t;
-if(n<4)loadChunk(n+1);
-else decompress();
-});
-}
-function decompress(){
+for(var i=1;i<=8;i++){p+=window["__c"+i]||"";}
+p=p.replace(/-/g,"+").replace(/_/g,"/");
+while(p.length%4)p+="=";
 var b=atob(p),a=new Uint8Array(b.length);
 for(var i=0;i<b.length;i++)a[i]=b.charCodeAt(i);
-new Response(new Blob([a]).stream().pipeThrough(new DecompressionStream("gzip"))).text().then(function(t){
-document.open();document.write(t);document.close();
-}).catch(function(e){
-document.body.innerHTML='<div style="color:#f87171;text-align:center;padding:20px">Error loading app. Please refresh.</div>';
-});
-}
-loadChunk(1);
+new Response(new Blob([a]).stream().pipeThrough(new DecompressionStream("gzip"))).text().then(function(t){document.open();document.write(t);document.close();}).catch(function(e){document.body.innerHTML='<div style="color:#f87171;text-align:center;padding:20px;font-family:system-ui,sans-serif">Error loading app. Please refresh page.</div>';});
 </script>
 </body>
 </html>
