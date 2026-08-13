@@ -29,9 +29,15 @@ while(p.length%4)p+="=";
 var b=atob(p),a=new Uint8Array(b.length);
 for(var i=0;i<b.length;i++)a[i]=b.charCodeAt(i);
 new Response(new Blob([a]).stream().pipeThrough(new DecompressionStream("gzip"))).text().then(function(t){
-document.open();
-document.write(t);
-document.close();
+var doc=new DOMParser().parseFromString(t,"text/html");
+document.head.innerHTML=doc.head.innerHTML;
+document.body.innerHTML=doc.body.innerHTML;
+doc.querySelectorAll("script").forEach(function(s){
+var ns=document.createElement("script");
+if(s.src)ns.src=s.src;else ns.textContent=s.textContent;
+if(s.type)ns.type=s.type;
+document.body.appendChild(ns);
+});
 }).catch(function(e){
 document.body.innerHTML='<div style="color:#f87171;text-align:center;padding:40px;font-family:system-ui;font-size:14px">Error: '+e.message+'<br><br><button onclick="location.reload()" style="padding:12px 30px;background:#d4af37;color:#1a1d2e;border:0;border-radius:8px;font-size:16px;font-weight:600">Retry</button></div>';
 });
