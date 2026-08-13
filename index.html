@@ -8,40 +8,21 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="PaisaWise Pro">
 <meta name="theme-color" content="#1a1d2e">
-<meta name="application-name" content="PaisaWise Pro">
 <title>PaisaWise Pro</title>
-<style>*{margin:0;padding:0}body{background:#1a1d2e;overflow:hidden}.s{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border:3px solid rgba(255,255,255,0.15);border-top-color:#d4af37;border-radius:50%;animation:sp .8s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}</style>
 </head>
 <body>
-<div class="s"></div>
-<script src="chunk1.js"></script>
-<script src="chunk2.js"></script>
-<script src="chunk3.js"></script>
-<script src="chunk4.js"></script>
-<script src="chunk5.js"></script>
-<script src="chunk6.js"></script>
-<script src="chunk7.js"></script>
-<script src="chunk8.js"></script>
+<script src="part1.js"></script>
+<script src="part2.js"></script>
+<script src="part3.js"></script>
+<script src="part4.js"></script>
+<script src="part5.js"></script>
+<script src="part6.js"></script>
 <script>
 var p="";
-for(var i=1;i<=8;i++){p+=window["__c"+i]||"";}
-p=p.replace(/-/g,"+").replace(/_/g,"/");
-while(p.length%4)p+="=";
-var b=atob(p),a=new Uint8Array(b.length);
-for(var i=0;i<b.length;i++)a[i]=b.charCodeAt(i);
-new Response(new Blob([a]).stream().pipeThrough(new DecompressionStream("gzip"))).text().then(function(t){
-var doc=new DOMParser().parseFromString(t,"text/html");
-document.head.innerHTML=doc.head.innerHTML;
-document.body.innerHTML=doc.body.innerHTML;
-doc.querySelectorAll("script").forEach(function(s){
-var ns=document.createElement("script");
-if(s.src)ns.src=s.src;else ns.textContent=s.textContent;
-if(s.type)ns.type=s.type;
-document.body.appendChild(ns);
-});
-}).catch(function(e){
-document.body.innerHTML='<div style="color:#f87171;text-align:center;padding:40px;font-family:system-ui;font-size:14px">Error. Please refresh.<br><br><button onclick="location.reload()" style="padding:12px 30px;background:#d4af37;color:#1a1d2e;border:0;border-radius:8px;font-size:16px;font-weight:600">Retry</button></div>';
-});
+for(var i=1;i<=6;i++){p+=window["__p"+i]||"";}
+document.open();
+document.write(p);
+document.close();
 </script>
 </body>
 </html>
