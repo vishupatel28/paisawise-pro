@@ -21,8 +21,8 @@
 <!-- Web Manifest (inline) -->
 <link rel="manifest" href="data:application/json,%7B%22name%22%3A%22PaisaWise%20Pro%22%2C%22short_name%22%3A%22PaisaWise%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%231a1d2e%22%2C%22theme_color%22%3A%22%231a1d2e%22%2C%22orientation%22%3A%22portrait%22%7D">
 
-<title>PaisaWise Pro v5.7 — by Umiya Ventures</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>PaisaWise Pro v5.8 — by Umiya Ventures</title>
+<!-- Fonts removed for offline support -->
 <style>
   :root {
     --bg: #f5f6fa;
@@ -61,7 +61,7 @@
     --radius: 18px;
     --radius-sm: 12px;
     --radius-xs: 8px;
-    --font: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font: system-ui, -apple-system, 'Segoe UI', sans-serif;
   }
 
   [data-theme="dark"] {
@@ -99,7 +99,7 @@
     font-family: var(--font);
     background: var(--bg);
     color: var(--text);
-    min-height: 100dvh;
+    min-height: 100vh;
     font-size: 15px;
     line-height: 1.5;
     max-width: 520px;
@@ -856,7 +856,7 @@
   .name-input-row button { width: auto; padding: 12px 18px; }
 
   /* ===== LOGIN SCREEN ===== */
-  .login-screen{position:fixed;inset:0;background:var(--navy-grad);z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;padding:30px 24px;min-height:100dvh;overflow-y:auto}
+  .login-screen{position:fixed;inset:0;background:var(--navy-grad);z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;padding:30px 24px;min-height:100vh;overflow-y:auto}
   .login-screen.active{display:flex}
   .login-screen::before{content:'';position:absolute;top:-100px;right:-100px;width:300px;height:300px;background:radial-gradient(circle,rgba(201,162,39,0.12) 0%,transparent 70%);border-radius:50%}
   .login-box{position:relative;width:100%;max-width:380px;background:var(--surface);border-radius:24px;padding:32px 24px;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center;margin:auto}
@@ -1004,7 +1004,7 @@
   }
 
 
-  /* ===== PREMIUM UI v5.7 — COMPLETE REDESIGN ===== */
+  /* ===== PREMIUM UI v5.8 — COMPLETE REDESIGN ===== */
 
   /* --- Typography & Base --- */
   body {
@@ -1995,7 +1995,7 @@
     </div>
 
     <div style="text-align:center;padding:20px 0 10px;color:var(--text-light);font-size:12px;">
-      <span id="footerName">PaisaWise Pro</span> v5.7<br>
+      <span id="footerName">PaisaWise Pro</span> v5.8<br>
       © Umiya Ventures — Vishal Patel<br>
       Made with care
     </div>
@@ -2199,6 +2199,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
+window.onerror=function(m,u,l,c,e){var d=document.createElement('div');d.style.cssText='position:fixed;bottom:10px;left:10px;right:10px;background:#dc2626;color:#fff;padding:10px;border-radius:8px;font-size:12px;z-index:99999;font-family:sans-serif';d.textContent='Error: '+m+' (line '+l+')';document.body.appendChild(d);return false;};
 // ===== STATE =====
 let expenses = JSON.parse(localStorage.getItem('expenses_pro_v4') || '[]');
 let expenseCats = JSON.parse(localStorage.getItem('exp_cats_v4') || 'null') || [
@@ -3099,7 +3100,7 @@ function handleFileImport(event) {
                   let dd, mm, yyyy;
                   if (parseInt(parts[0]) > 12) { dd = parts[0]; mm = parts[1]; yyyy = parts[2]; }
                   else { mm = parts[0]; dd = parts[1]; yyyy = parts[2]; }
-                  dateStr = yyyy + '-' + mm.padStart(2, '0') + '-' + dd.padStart(2, '0');
+                  dateStr = yyyy + '-' + (mm.length < 2 ? '0' + mm : mm) + '-' + (dd.length < 2 ? '0' + dd : dd);
                 }
               }
             }
@@ -3308,7 +3309,7 @@ document.getElementById('note').addEventListener('keydown', function(e) { if (e.
 document.getElementById('nameInput').addEventListener('keydown', function(e) { if (e.key === 'Enter') completeRegistration(); });
 document.getElementById('newCatName').addEventListener('keydown', function(e) { if (e.key === 'Enter') addCategory(); });
 
-initWithLogin();
+function safeInit(){try{initWithLogin();}catch(e){console.error(e);var el=document.getElementById("loginScreen");if(el){el.style.display="flex";}}}if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",safeInit);}else{safeInit();}
 </script>
 </body>
 </html>
