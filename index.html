@@ -21,8 +21,8 @@
 <!-- Web Manifest (inline) -->
 <link rel="manifest" href="data:application/json,%7B%22name%22%3A%22PaisaWise%20Pro%22%2C%22short_name%22%3A%22PaisaWise%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%231a1d2e%22%2C%22theme_color%22%3A%22%231a1d2e%22%2C%22orientation%22%3A%22portrait%22%7D">
 
-<title>PaisaWise Pro v5.8 — by Umiya Ventures</title>
-<!-- Fonts removed for offline support -->
+<title>PaisaWise Pro v5.9 — by Umiya Ventures</title>
+<!-- Fonts removed -->
 <style>
   :root {
     --bg: #f5f6fa;
@@ -641,11 +641,11 @@
 
   /* ===== MODAL ===== */
   .modal-overlay {
-    position: fixed; inset: 0;
+    position: fixed; top:0;left:0;right:0;bottom:0;
     background: rgba(10,13,22,0.6);
     z-index: 200; display: none;
     align-items: flex-end; justify-content: center;
-    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);backdrop-filter: blur(6px);
   }
   .modal-overlay.active { display: flex; }
   .modal {
@@ -776,7 +776,7 @@
   .btn-danger { background: var(--danger); color: #fff; }
 
   .image-viewer {
-    position: fixed; inset: 0;
+    position: fixed; top:0;left:0;right:0;bottom:0;
     background: rgba(0,0,0,0.9); z-index: 300;
     display: none; align-items: center; justify-content: center; padding: 20px;
   }
@@ -816,10 +816,10 @@
   #fileInput, #jsonInput, #photoCamera, #photoGallery { display: none; }
 
   .confirm-overlay {
-    position: fixed; inset: 0;
+    position: fixed; top:0;left:0;right:0;bottom:0;
     background: rgba(0,0,0,0.5); z-index: 250;
     display: none; align-items: center; justify-content: center;
-    padding: 40px; backdrop-filter: blur(4px);
+    padding: 40px; -webkit-backdrop-filter: blur(4px);backdrop-filter: blur(4px);
   }
   .confirm-overlay.active { display: flex; }
   .confirm-box {
@@ -856,10 +856,10 @@
   .name-input-row button { width: auto; padding: 12px 18px; }
 
   /* ===== LOGIN SCREEN ===== */
-  .login-screen{position:fixed;inset:0;background:var(--navy-grad);z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;padding:30px 24px;min-height:100vh;overflow-y:auto}
+  .login-screen{position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,#1a1d2e,#252838);z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;padding:30px 24px;min-height:100vh;overflow-y:auto}
   .login-screen.active{display:flex}
   .login-screen::before{content:'';position:absolute;top:-100px;right:-100px;width:300px;height:300px;background:radial-gradient(circle,rgba(201,162,39,0.12) 0%,transparent 70%);border-radius:50%}
-  .login-box{position:relative;width:100%;max-width:380px;background:var(--surface);border-radius:24px;padding:32px 24px;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center;margin:auto}
+  .login-box{position:relative;width:100%;max-width:380px;background:#252838;border-radius:24px;padding:32px 24px;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center;margin:auto}
   .login-logo{width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;overflow:hidden}
   .login-logo img{width:100%;height:100%;object-fit:cover;border-radius:16px}
   .login-title{font-size:22px;font-weight:800;color:var(--text);margin-bottom:4px}
@@ -867,15 +867,15 @@
   .login-form{text-align:left}
   .login-form label{display:block;font-size:13px;font-weight:600;color:var(--text-dim);margin-bottom:6px}
   .login-input-wrap{position:relative;margin-bottom:16px}
-  .login-input-wrap .flag{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;font-weight:600;color:var(--text);pointer-events:none}
-  .login-input-wrap input{width:100%;padding:14px 14px 14px 50px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:17px;font-family:var(--font);background:var(--surface-2);color:var(--text);transition:border 0.2s;letter-spacing:1px}
+  .login-input-wrap .flag{position:absolute;left:14px;top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%);font-size:18px;font-weight:600;color:var(--text);pointer-events:none}
+  .login-input-wrap input{width:100%;padding:14px 14px 14px 50px;border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;font-size:17px;font-family:var(--font);background:var(--surface-2);color:var(--text);transition:border 0.2s;letter-spacing:1px}
   .login-input-wrap input:focus{outline:none;border-color:var(--accent);background:var(--surface)}
   .otp-input-wrap input{text-align:center;letter-spacing:8px;font-size:24px;font-weight:700;padding:14px}
   .otp-display{background:var(--accent-light);border:1.5px dashed var(--accent);border-radius:var(--radius-sm);padding:12px;margin-bottom:16px;text-align:center}
   .otp-display .otp-label{font-size:11px;color:var(--text-dim);font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
   .otp-display .otp-code{font-size:28px;font-weight:800;color:var(--accent);letter-spacing:6px;margin-top:4px}
-  .login-btn{width:100%;padding:15px;border:none;border-radius:var(--radius-sm);background:var(--gold-grad);color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font);box-shadow:var(--shadow-gold);transition:transform 0.1s}
-  .login-btn:active{transform:scale(0.98)}
+  .login-btn{width:100%;padding:15px;border:none;border-radius:12px;background:linear-gradient(135deg,#d4af37,#c9a227);color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font);box-shadow:var(--shadow-gold);transition:transform 0.1s}
+  .login-btn:active{-webkit-transform:scale(0.98);transform:scale(0.98)}
   .login-btn:disabled{opacity:0.5}
   .login-back{background:none;border:none;color:var(--text-dim);font-size:14px;font-weight:600;cursor:pointer;margin-top:16px;font-family:var(--font)}
   .login-footer{margin-top:20px;font-size:11px;color:var(--text-light);line-height:1.5}
@@ -1004,7 +1004,7 @@
   }
 
 
-  /* ===== PREMIUM UI v5.8 — COMPLETE REDESIGN ===== */
+  /* ===== PREMIUM UI v5.9 — COMPLETE REDESIGN ===== */
 
   /* --- Typography & Base --- */
   body {
@@ -1018,8 +1018,8 @@
   .header {
     background: var(--surface);
     padding: 14px 18px 10px;
-    backdrop-filter: saturate(180%) blur(20px);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);backdrop-filter: saturate(180%) blur(20px);
+    -webkit--webkit-backdrop-filter: saturate(180%) blur(20px);backdrop-filter: saturate(180%) blur(20px);
     box-shadow: 0 1px 0 var(--border), 0 1px 8px rgba(0,0,0,0.03);
   }
   .header-top { margin-bottom: 10px; }
@@ -1032,7 +1032,7 @@
   }
   .brand-logo::after {
     content: '';
-    position: absolute; inset: 0;
+    position: absolute; top:0;left:0;right:0;bottom:0;
     background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%);
     border-radius: 12px;
   }
@@ -1052,7 +1052,7 @@
     width: 38px; height: 38px;
     border-radius: 11px;
     transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
-    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);backdrop-filter: blur(4px);
   }
   .icon-btn:active {
     transform: scale(0.9);
@@ -1171,8 +1171,8 @@
   .hero-mini-card {
     background: rgba(255,255,255,0.07);
     border: 1px solid rgba(255,255,255,0.06);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);backdrop-filter: blur(8px);
+    -webkit--webkit-backdrop-filter: blur(8px);backdrop-filter: blur(8px);
     border-radius: 12px;
     padding: 12px 14px;
     transition: transform 0.2s;
@@ -1268,7 +1268,7 @@
   .expense-item::after {
     content: '';
     position: absolute;
-    inset: 0;
+    top:0;left:0;right:0;bottom:0;
     background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.01) 100%);
     pointer-events: none;
   }
@@ -1496,8 +1496,8 @@
   /* --- Modal Premium --- */
   .modal-overlay {
     background: rgba(10,13,22,0.65);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);backdrop-filter: blur(8px);
+    -webkit--webkit-backdrop-filter: blur(8px);backdrop-filter: blur(8px);
   }
   .modal {
     border-radius: 28px 28px 0 0;
@@ -1995,7 +1995,7 @@
     </div>
 
     <div style="text-align:center;padding:20px 0 10px;color:var(--text-light);font-size:12px;">
-      <span id="footerName">PaisaWise Pro</span> v5.8<br>
+      <span id="footerName">PaisaWise Pro</span> v5.9<br>
       © Umiya Ventures — Vishal Patel<br>
       Made with care
     </div>
