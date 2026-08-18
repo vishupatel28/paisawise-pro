@@ -2,7 +2,7 @@ const fs = require('fs');
 const zlib = require('zlib');
 
 // Read and concatenate chunks
-let b64 = '';
+var b64 = '';
 for (var i = 1; i <= 8; i++) {
   var c = fs.readFileSync('chunk' + i + '.js', 'utf8');
   var m = c.match(/"([^"]+)"/);
@@ -22,46 +22,82 @@ html = html.split('100dvh').join('100vh');
 html = html.split("mm.padStart(2, '0')").join("(mm.length < 2 ? '0' + mm : mm)");
 html = html.split("dd.padStart(2, '0')").join("(dd.length < 2 ? '0' + dd : dd)");
 
-// ===== iOS FIX 3: Remove Google Fonts dependency =====
+// ===== iOS FIX 3: Remove Google Fonts =====
 html = html.split('<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">').join('<!-- Fonts removed -->');
 html = html.split("'Plus Jakarta Sans', system-ui, sans-serif").join("system-ui, -apple-system, 'Segoe UI', sans-serif");
 
-// ===== iOS FIX 4: Add window.onerror handler =====
+// ===== iOS FIX 4: window.onerror handler =====
 var oe = "window.onerror=function(m,u,l,c,e){var d=document.createElement('div');d.style.cssText='position:fixed;bottom:10px;left:10px;right:10px;background:#dc2626;color:#fff;padding:10px;border-radius:8px;font-size:12px;z-index:99999;font-family:sans-serif';d.textContent='Error: '+m+' (line '+l+')';document.body.appendChild(d);return false;};";
 html = html.replace('<script>\n', '<script>\n' + oe + '\n');
 
-// ===== iOS FIX 5: Wrap initWithLogin() in DOMContentLoaded + try-catch =====
+// ===== iOS FIX 5: DOMContentLoaded + try-catch =====
 var si = 'function safeInit(){try{initWithLogin();}catch(e){console.error(e);var el=document.getElementById("loginScreen");if(el){el.style.display="flex";}}}if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",safeInit);}else{safeInit();}';
 html = html.replace('\ninitWithLogin();\n', '\n' + si + '\n');
 
-// ===== iOS FIX 6 (CRITICAL): inset:0 → top:0;left:0;right:0;bottom:0 =====
-// inset:0 is NOT supported on iOS Safari < 14.5
+// ===== iOS FIX 6: inset:0 → top:0;left:0;right:0;bottom:0 =====
 html = html.split('inset:0;').join('top:0;left:0;right:0;bottom:0;');
 html = html.split('inset: 0;').join('top:0;left:0;right:0;bottom:0;');
 html = html.split('inset:0 ;').join('top:0;left:0;right:0;bottom:0;');
 
-// ===== iOS FIX 7: CSS variable fallbacks for login elements =====
-html = html.split('.login-box{position:relative;width:100%;max-width:380px;background:var(--surface);').join('.login-box{position:relative;width:100%;max-width:380px;background:#252838;');
-html = html.split('.login-screen{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--navy-grad);').join('.login-screen{position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,#1a1d2e,#252838);');
-html = html.split('border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:17px').join('border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;font-size:17px');
-html = html.split('.login-btn{width:100%;padding:15px;border:none;border-radius:var(--radius-sm);background:var(--gold-grad);').join('.login-btn{width:100%;padding:15px;border:none;border-radius:12px;background:linear-gradient(135deg,#d4af37,#c9a227);');
+// ===== iOS FIX 7 (CRITICAL): Replace ALL CSS variables with hardcoded values =====
+var vars = {
+  'bg': '#f5f6fa',
+  'surface': '#ffffff',
+  'surface-2': '#eef0f6',
+  'surface-3': '#e4e7f0',
+  'border': '#dfe3ef',
+  'border-hover': '#c4cbdc',
+  'text': '#1a1d2e',
+  'text-dim': '#6b7184',
+  'text-light': '#a0a6b8',
+  'primary': '#1a1d2e',
+  'primary-dark': '#0f1120',
+  'primary-light': '#e8eaf2',
+  'accent': '#c9a227',
+  'accent-dark': '#a88a1f',
+  'accent-light': '#fdf6e3',
+  'gold-grad': 'linear-gradient(135deg, #d4af37, #c9a227)',
+  'navy-grad': 'linear-gradient(135deg, #1a1d2e, #2a2f4a)',
+  'income': '#15803d',
+  'income-bg': '#f0fdf4',
+  'income-light': '#dcfce7',
+  'expense': '#dc2626',
+  'expense-bg': '#fef2f2',
+  'expense-light': '#fee2e2',
+  'danger': '#dc2626',
+  'danger-bg': '#fef2f2',
+  'success': '#15803d',
+  'success-bg': '#f0fdf4',
+  'info': '#1d4ed8',
+  'info-bg': '#eff6ff',
+  'shadow': '0 1px 3px rgba(26,29,46,0.04)',
+  'shadow-md': '0 4px 16px rgba(26,29,46,0.07), 0 1px 3px rgba(26,29,46,0.03)',
+  'shadow-lg': '0 8px 32px rgba(26,29,46,0.10)',
+  'shadow-gold': '0 4px 20px rgba(201,162,39,0.25)',
+  'radius': '18px',
+  'radius-sm': '12px',
+  'radius-xs': '8px',
+  'font': "system-ui, -apple-system, 'Segoe UI', sans-serif"
+};
 
-// ===== iOS FIX 8: Add -webkit-backdrop-filter prefix =====
-html = html.split('backdrop-filter:').join('-webkit-backdrop-filter:');
-// Re-add standard version after each -webkit- version
-html = html.replace(/-webkit-backdrop-filter:([^;]+);/g, '-webkit-backdrop-filter:$1;backdrop-filter:$1;');
+for (var k in vars) {
+  // Replace var(--name) with value
+  var re = new RegExp('var\\(--' + k.replace(/[-]/g, '\\-') + '\\)', 'g');
+  html = html.replace(re, vars[k]);
+  // Also replace var(--name, fallback)
+  var re2 = new RegExp('var\\(--' + k.replace(/[-]/g, '\\-') + ',\\s*[^)]+\\)', 'g');
+  html = html.replace(re2, vars[k]);
+}
 
-// ===== iOS FIX 9: Add -webkit-transform prefix =====
+// ===== iOS FIX 8: -webkit prefixes =====
+html = html.replace(/backdrop-filter:([^;]+);/g, '-webkit-backdrop-filter:$1;backdrop-filter:$1;');
 html = html.split('transform:scale(0.98)').join('-webkit-transform:scale(0.98);transform:scale(0.98)');
 html = html.split('transform:translateY(-50%)').join('-webkit-transform:translateY(-50%);transform:translateY(-50%)');
 
 // Update version
-html = html.split('v5.7').join('v5.9');
+html = html.split('v5.7').join('v6.1');
 
 fs.writeFileSync('index.html', html);
-console.log('Built index.html: ' + html.length + ' chars, version v5.9');
-console.log('inset: count: ' + (html.match(/inset:/g) || []).length);
-console.log('100dvh count: ' + (html.match(/100dvh/g) || []).length);
-console.log('padStart count: ' + (html.match(/padStart/g) || []).length);
-console.log('DOMContentLoaded: ' + (html.indexOf('DOMContentLoaded') > -1));
-console.log('window.onerror: ' + (html.indexOf('window.onerror') > -1));
+console.log('Built: ' + html.length + ' chars, v6.1');
+console.log('var(--: ' + (html.match(/var\(--/g) || []).length);
+console.log('inset:: ' + (html.match(/inset:/g) || []).length);
